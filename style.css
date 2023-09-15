@@ -1,0 +1,9 @@
+#list{
+    border: 2px solid black;
+    height:30%;
+    width: 40%;
+
+}
+.flex{
+    display: flex;
+}
