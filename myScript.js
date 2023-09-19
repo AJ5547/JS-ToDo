@@ -1,11 +1,11 @@
 function addTask(){
     const newTask = document.getElementById("newTask");
-    newTask.innerHTML = '<input id="task" /> <button onclick="add()"> Add </button> ';
-
+    newTask.innerHTML = '<input type="text" id="task" placeholder="list name" required /> <button onclick="addList()"> Add </button> ';
 }
-function add() {
+function addList() {
   const info = document.getElementById("task").value;
-  const taskItems = document.getElementById("list");
-  taskItems.innerHTML +=`<div class="flex"> <input type="checkbox" /> <p> ${info} </p> </div>`;
+  const taskItems = document.getElementById("todoLists");
+  taskItems.innerHTML +=`<h3 class="bg-gray-500 p-1"> ${info} </h3>`;
   document.getElementById("task").value = "";
+  document.getElementById("newTask").innerHTML = "";
 }

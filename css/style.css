@@ -1,0 +1,17 @@
+@import url('app.css');
+body{
+    width: 100%;
+    background-color: rgb(63 63 70);
+}
+#list{
+    border: 2px solid rgb(203, 203, 203);
+    min-height:30%;
+    width: 100%;
+    color:white;
+
+}
+button{
+    height: 30px;
+}
+h-10{
+    height:10px;
