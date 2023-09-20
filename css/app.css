@@ -538,22 +538,31 @@ video {
   margin: 0px;
 }
 
-.m-2 {
-  margin: 0.5rem;
-}
-
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
+}
+
+.ms-3 {
+  -webkit-margin-start: 0.75rem;
+          margin-inline-start: 0.75rem;
 }
 
 .mt-10 {
   margin-top: 2.5rem;
 }
 
-.ms-2 {
-  -webkit-margin-start: 0.5rem;
-          margin-inline-start: 0.5rem;
+.mt-5 {
+  margin-top: 1.25rem;
+}
+
+.me-2 {
+  -webkit-margin-end: 0.5rem;
+          margin-inline-end: 0.5rem;
+}
+
+.mr-2 {
+  margin-right: 0.5rem;
 }
 
 .flex {
@@ -564,12 +573,12 @@ video {
   height: 75%;
 }
 
-.h-52 {
-  height: 13rem;
+.h-96 {
+  height: 24rem;
 }
 
-.h-80 {
-  height: 20rem;
+.h-full {
+  height: 100%;
 }
 
 .min-h-full {
@@ -580,16 +589,20 @@ video {
   width: 60%;
 }
 
-.w-44 {
-  width: 11rem;
-}
-
 .w-48 {
   width: 12rem;
 }
 
+.w-full {
+  width: 100%;
+}
+
 .items-center {
   align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
 }
 
 .justify-between {
@@ -609,16 +622,6 @@ video {
   border-color: rgb(0 0 0 / var(--tw-border-opacity));
 }
 
-.border-zinc-900 {
-  --tw-border-opacity: 1;
-  border-color: rgb(24 24 27 / var(--tw-border-opacity));
-}
-
-.border-zinc-950 {
-  --tw-border-opacity: 1;
-  border-color: rgb(9 9 11 / var(--tw-border-opacity));
-}
-
 .bg-gray-300 {
   --tw-bg-opacity: 1;
   background-color: rgb(209 213 219 / var(--tw-bg-opacity));
@@ -634,12 +637,19 @@ video {
   background-color: rgb(63 63 70 / var(--tw-bg-opacity));
 }
 
-.p-5 {
-  padding: 1.25rem;
+.bg-zinc-800 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(39 39 42 / var(--tw-bg-opacity));
 }
 
-.p-0 {
-  padding: 0px;
+.bg-gray-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(107 114 128 / var(--tw-bg-opacity));
+}
+
+.bg-gray-400 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(156 163 175 / var(--tw-bg-opacity));
 }
 
 .p-2 {
@@ -650,9 +660,21 @@ video {
   padding: 0.75rem;
 }
 
+.p-5 {
+  padding: 1.25rem;
+}
+
+.p-1 {
+  padding: 0.25rem;
+}
+
 .ps-2 {
   -webkit-padding-start: 0.5rem;
           padding-inline-start: 0.5rem;
+}
+
+.align-middle {
+  vertical-align: middle;
 }
 
 h3{
