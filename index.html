@@ -22,20 +22,22 @@
     <div class="outer w-75 mt-5 bg-zinc-800">
       <nav class="navbar border border-solid border-black p-2 flex justify-between align-middle">
         <button onclick="addTask()"> <i class="fa-solid fa-plus" style="color: #d0d0d0;"></i></button>
-        <p id="newTask"></p>
+        <div id="newTask"></div>
       </nav>
       <div class="container-fluid h-96 ps-2 p-3 bg-gray-300 ">
         <div class="row h-full">
           <div class="col-3 ms-3 h-full w-48 border border-solid border-black" id="todoLists">
             <!-- list of todo lists go here -->
-            <div class="flex items-center justify-between bg-gray-400 w-full">
+            <div class="flex items-center h-5 justify-between bg-gray-400 w-full">
             <h3 class="p-1"> Test List </h3>
             <button><i class="fa-solid fa-trash-can mr-2" style="color: #fe0717;"></i></button>
           </div>
           </div>
           <div class="col-8" id="currentList">
             <!-- current todo list name goes here -->
+           <div id="header" class="flex justify-between align-middle items-center"></div>
             <!-- current todo list goes here -->
+            <div id="items"></div>
           </div>
         </div>
       </div>
