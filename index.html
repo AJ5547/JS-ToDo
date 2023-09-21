@@ -6,7 +6,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="css/style.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <script type="text/javascript" src="myScript.js"></script>
+    <script type="text/javascript" src="JS/myScript.js"></script>
 
     <script
       src="https://kit.fontawesome.com/9bd4a88d16.js"
@@ -14,11 +14,7 @@
     ></script>
   </head>
   <body class="flex justify-center bg-zinc-700">
-    <!-- <div class="mainContent w-3/5 mx-auto bg-purple-900 p-5 mt-10">
-      
-      </div>
-      <p class="h-3/4 min-h-full" id="list"></p>
-    </div> -->
+   
     <div class="outer w-75 mt-5 bg-zinc-800">
       <nav class="navbar border border-solid border-black p-2 flex justify-between align-middle">
         <button onclick="addTask()"> <i class="fa-solid fa-plus" style="color: #d0d0d0;"></i></button>
@@ -26,18 +22,18 @@
       </nav>
       <div class="container-fluid h-96 ps-2 p-3 bg-gray-300 ">
         <div class="row h-full">
-          <div class="col-3 ms-3 h-full w-48 border border-solid border-black" id="todoLists">
+          <div class="col-3 ms-3 h-full p-0 w-48 border border-solid border-black" id="listNames">
             <!-- list of todo lists go here -->
-            <div class="flex items-center h-5 justify-between bg-gray-400 w-full">
+            <div class="flex items-cente m-0 p-0 h-5 justify-between bg-gray-400 w-fit">
             <h3 class="p-1"> Test List </h3>
             <button><i class="fa-solid fa-trash-can mr-2" style="color: #fe0717;"></i></button>
           </div>
           </div>
           <div class="col-8" id="currentList">
             <!-- current todo list name goes here -->
-           <div id="header" class="flex justify-between align-middle items-center"></div>
+           <div id="listHeader" class="flex justify-between align-middle items-center"></div>
             <!-- current todo list goes here -->
-            <div id="items"></div>
+            <div id="tasks"></div>
           </div>
         </div>
       </div>
