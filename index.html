@@ -24,16 +24,23 @@
         <div class="row h-full">
           <div class="col-3 ms-3 h-full p-0 w-48 border border-solid border-black" id="listNames">
             <!-- list of todo lists go here -->
-            <div class="flex items-cente m-0 p-0 h-5 justify-between bg-gray-400 w-fit">
+            <div class="flex items-center m-0 p-0 h-5 justify-between bg-gray-400 w-fit">
             <h3 class="p-1"> Test List </h3>
             <button><i class="fa-solid fa-trash-can mr-2" style="color: #fe0717;"></i></button>
           </div>
           </div>
           <div class="col-8" id="currentList">
             <!-- current todo list name goes here -->
-           <div id="listHeader" class="flex justify-between align-middle items-center"></div>
+           <div id="listHeader" class="flex justify-between align-middle items-center">
+            <h2> ${info} </h2> <button onclick="taskItem()"> <i class="fa-solid fa-plus bg-zinc-900 p-2"></i></button>
+            <hr>
+           </div>
             <!-- current todo list goes here -->
-            <div id="tasks"></div>
+            <div id="itemInput"></div>
+            <div id="tasks">
+              <div class="flex w-1/2 border border-solid border-gray-400"><input type="checkbox" name="" class="listCheckbox"> <p> ${newTaskInput.value} </p></div>
+            </div>
+            
           </div>
         </div>
       </div>
