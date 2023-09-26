@@ -28,17 +28,13 @@ function newList() {
   const info = document.getElementById("newList").value;
   const listHead = document.getElementById("listHeader");
   listNames.push(info);
-  console.log(listNames);
   taskItems.innerHTML += `<div class="flex items-center m-0 p-0 my-2 h-10 w-full justify-between bg-gray-400">
-  <h3 class="p-1"> ${info} </h3>
-  <button><i class="fa-solid fa-trash-can mr-2" style="color: #fe0717;"></i></button>
+  <h3 class="p-1 h-full w-1/5 overflow-hidden"> ${info} </h3>
+  <button class="w-1/2 overflow-hidden"><i class="fa-solid fa-trash-can mr-2" style="color: #fe0717;"></i></button>
 </div>`;
   document.getElementById("newList").value = "";
   document.getElementById("newTask").innerHTML = "";
   listHead.innerHTML = `<h2> ${info} </h2> <button onclick="taskItem()"> <i class="fa-solid fa-plus text-zinc-700 p-2"></i></button>`;
-}
-function deleteList() {
-  listNames.index;
 }
 
 function taskItem() {
@@ -61,9 +57,9 @@ function taskItem() {
       taskDiv.innerHTML = `<input type="checkbox" name="" class="listCheckbox"> <p class="mb-0">${taskContent}</p>`;
       newItem.appendChild(taskDiv);
       tasks.push(taskContent);
-      console.log(tasks);
       // Clear the input field
       newTaskInput.value = "";
+      itemInput.innerHTML ='';
     }
   });
 
