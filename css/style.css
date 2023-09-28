@@ -12,7 +12,8 @@ body{
 
 }
 .outer{
-    box-shadow: 5px 5px 15px 20px  rgba(39, 39, 39, 0.69);;
+    box-shadow: 5px 5px 15px 20px  rgba(39, 39, 39, 0.69);
+    height: 75vh;
 }
 h-10{
     height:10px;
