@@ -33,7 +33,7 @@ function newList() {
   const taskItems = document.getElementById("listNames");
   const info = document.getElementById("newList").value;
   const listHead = document.getElementById("listHeader");
-  taskItems.innerHTML += `<div class="flex items-center m-0 p-0 my-2 h-10 w-full justify-between bg-gray-400">
+  taskItems.innerHTML += `<div class=" listName h-10 bg-gray-400">
     <h3 class="p-1 h-full w-1/5 overflow-hidden"> ${info} </h3>
     <button class="w-1/2 overflow-hidden"><i class="fa-solid fa-trash-can mr-2" style="color: #fe0717;"></i></button>
   </div>`;
@@ -67,8 +67,8 @@ function taskItem() {
       const text = newTaskInput.value;
       const taskDiv = document.createElement("div");
       taskDiv.className =
-        "flex w-1/2 border  items-center align-middle border-solid border-gray-400 overflow-y-scroll";
-      taskDiv.innerHTML = `<input type="checkbox" name="" class="listCheckbox"> <p class="mb-0">${text}</p>`;
+        "todo-item w-1/2";
+      taskDiv.innerHTML = ` <p class="mb-0">${text}</p>`;
     
       taskDiv.classList.add("todo-item");
       taskDiv.addEventListener('click', checkIfChecked);
@@ -81,7 +81,7 @@ function taskItem() {
         });
       }
       // Clear the input field
-      text = "";
+      newTaskInput.value = "";
       newTaskInput.innerHTML = "";
       taskDiv.addEventListener("click",checkIfChecked)
     }
@@ -93,7 +93,7 @@ function taskItem() {
 };
 
 
-//Checkbox if checked function
+//When clikcing on a task item, gets crossed out
 function checkIfChecked(event){
   const taskDiv = event.target;
   taskDiv.classList.add('crossed-out');
@@ -104,8 +104,7 @@ function deleteCheckedTasks(){
   // if( class"crossed-out"){ remove from page on the click of a button}
 };
 function render() {
-  let taskItems = "<div>";
-  taskItem.className = "m-0 p-0 my-2 h-10 w-full justify-between bg-gray-400";
+  let taskItems = `<div class="listName h-10 bg-gray-400">`;
   lists.forEach((list) => {
     taskItems += `<h3 class="p-1 h-full w-1/5 overflow-hidden"> ${list.name} </h3>
         <button class="w-1/2 overflow-hidden"><i class="fa-solid fa-trash-can mr-2" style="color: #fe0717;"></i>`;
@@ -122,8 +121,7 @@ function render() {
   const newItem = document.getElementById("tasks");
   const taskDivs = currentList.todos.map((todo) => {
     return `
-      <div class="flex w-1/2 border items-center align-middle border-solid border-gray-400 overflow-y-scroll">
-        <input type="checkbox" name="" class="listCheckbox">
+      <div class=" todo-item w-1/2">
         <p class="mb-0">${todo.text}</p>
       </div>
     `;
