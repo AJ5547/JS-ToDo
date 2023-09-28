@@ -18,3 +18,31 @@ body{
 h-10{
     height:10px;
 }
+.crossed-out{
+    text-decoration: line-through;
+}
+.todo-item{
+    display:flex;
+    align-items:center;
+    justify-content: start;
+    padding:5px;
+    border: solid 1px black;
+    overflow-y: scroll;
+    margin: 5px 0px;
+    font-size: large;
+    text-transform: capitalize;
+}
+.listName{
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid black;
+    overflow: hidden;
+    margin: 3px;;
+    padding:0;
+    width:95%;
+    justify-content: space-between;
+
+}
+hr{
+    margin:0;
+}
