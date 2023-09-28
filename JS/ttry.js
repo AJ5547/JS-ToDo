@@ -67,10 +67,13 @@ function taskItem() {
       const text = newTaskInput.value;
       const taskDiv = document.createElement("div");
       taskDiv.className =
-        "flex w-1/2 border items-center align-middle border-solid border-gray-400 overflow-y-scroll";
+        "flex w-1/2 border  items-center align-middle border-solid border-gray-400 overflow-y-scroll";
       taskDiv.innerHTML = `<input type="checkbox" name="" class="listCheckbox"> <p class="mb-0">${text}</p>`;
-      newItem.appendChild(taskDiv);
-
+    
+      taskDiv.classList.add("todo-item");
+      taskDiv.addEventListener('click', checkIfChecked);
+      
+      newItem.append(taskDiv)
       if (text) {
         currentList.todos.push({
           text: text,
@@ -80,6 +83,7 @@ function taskItem() {
       // Clear the input field
       text = "";
       newTaskInput.innerHTML = "";
+      taskDiv.addEventListener("click",checkIfChecked)
     }
   });
 
@@ -90,18 +94,14 @@ function taskItem() {
 
 
 //Checkbox if checked function
-function checkIfChecked(){
-  const checkbox = document.getElementsByClassName("listCheckbox");
-  if(checkbox.checked){
-    console.log("checked")
-  }else{
-    console.log("not checked")
+function checkIfChecked(event){
+  const taskDiv = event.target;
+  taskDiv.classList.add('crossed-out');
   }
 
-};
 
 function deleteCheckedTasks(){
-
+  // if( class"crossed-out"){ remove from page on the click of a button}
 };
 function render() {
   let taskItems = "<div>";
