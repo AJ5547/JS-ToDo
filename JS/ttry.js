@@ -13,11 +13,12 @@ let lists = [
     ],
   },
 ];
-for (let i = 0; i < lists.length; i++) {
-  console.log(lists[i]);
-}
 
-const currentList = lists[0];
+const newListObject = {
+    name:"" ,
+    todos: [],
+  };
+
 
 function addTask() {
   const newTask = document.getElementById("newTask");
@@ -29,10 +30,11 @@ function addTask() {
   });
 }
 
+
 function newList() {
   const taskItems = document.getElementById("listNames");
   const info = document.getElementById("newList").value;
-  const listHead = document.getElementById("listHeader");
+  const listHead = document.getElementById("listHeader"); 
   taskItems.innerHTML += `<div class=" listName h-10 bg-gray-400">
     <h3 class="p-1 h-full w-1/5 overflow-hidden"> ${info} </h3>
     <button class="w-1/2 overflow-hidden"><i class="fa-solid fa-trash-can mr-2" style="color: #fe0717;"></i></button>
@@ -43,14 +45,14 @@ function newList() {
 
   document.getElementById("tasks").innerHTML = "";
 
-  const newListObject = {
-    name: info,
-    todos: [],
-  };
+  if (info) {
+    newListObject.name.push({
+      name: info,
+    });
 
-  lists.push(newListObject);
 }
-
+};
+  
 function taskItem() {
   const newItem = document.getElementById("tasks");
   const itemInput = document.getElementById("itemInput");
@@ -75,7 +77,7 @@ function taskItem() {
       
       newItem.append(taskDiv)
       if (text) {
-        currentList.todos.push({
+        newListObject.todos.push({
           text: text,
           completed: false,
         });
@@ -100,9 +102,11 @@ function checkIfChecked(event){
   }
 
 
-function deleteCheckedTasks(){
+function deleteCheckedTasks(event){
   // if( class"crossed-out"){ remove from page on the click of a button}
-};
+  if(taskDiv.classList.contains('crossed-out')){
+    //remove from newItem
+}};
 function render() {
   let taskItems = `<div class="listName h-10 bg-gray-400">`;
   lists.forEach((list) => {
@@ -115,11 +119,11 @@ function render() {
   // Print out the name of the current list
   document.getElementById(
     "listHeader"
-  ).innerHTML = `<h2> ${currentList.name} </h2> <button onclick="taskItem()"> <i class="fa-solid fa-plus text-zinc-700 p-2"></i></button>`;
+  ).innerHTML = `<h2> ${newListObject.name} </h2> <button onclick="taskItem()"> <i class="fa-solid fa-plus text-zinc-700 p-2"></i></button>`;
 
   // Iterate over the todos in the current list
   const newItem = document.getElementById("tasks");
-  const taskDivs = currentList.todos.map((todo) => {
+  const taskDivs = newListObject.todos.map((todo) => {
     return `
       <div class=" todo-item w-1/2">
         <p class="mb-0">${todo.text}</p>
