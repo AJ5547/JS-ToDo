@@ -13,6 +13,7 @@ let lists = [
     ],
   },
 ];
+currentList = lists[0]
 
 function addTask() {
   const newTask = document.getElementById("newTask");
@@ -47,8 +48,9 @@ function newList() {
     newListObject.name = info;
   }
 
-  lists.push(newListObject);
+  currentList.push(newListObject);
   console.log(lists);
+  lists.push(currentList);
 }
 
 function taskItem() {
@@ -76,7 +78,7 @@ function taskItem() {
 
       newItem.append(taskDiv);
       if (text) {
-        newListObject.todos.push({
+        currentList.todos.push({
           text: text,
           completed: false,
         });
@@ -84,13 +86,8 @@ function taskItem() {
       // Clear the input field
       newTaskInput.value = "";
       newTaskInput.innerHTML = "";
-      taskDiv.addEventListener("click", checkIfChecked);
     }
   });
-
-  // Clear the itemInput and add the new input field
-  itemInput.innerHTML = "";
-  itemInput.appendChild(newTaskInput);
 }
 
 //When clikcing on a task item, gets crossed out
@@ -121,18 +118,18 @@ function render() {
     ).innerHTML = `<h2> ${list.name} </h2> <button onclick="taskItem()"> <i class="fa-solid fa-plus text-zinc-700 p-2"></i></button>`;
 
     // Iterate over the todos in the current list
-
+    
     const taskDivs = list.todos.map((todo) => {
       return `
-      <div class=" todo-item w-1/2">
+      <div>
         <p class="mb-0">${todo.text}</p>
       </div>
     `;
+     
     });
     // Print out the todos
     newItem.innerHTML = taskDivs.join("");
   });
-  
 }
 // Initial rendering when the page loads
 render();
