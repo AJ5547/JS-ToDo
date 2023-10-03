@@ -13,7 +13,9 @@ let lists = [
     ],
   },
 ];
-currentList = lists[0]
+for (let i = 0; i < lists.length; i++) {
+  newListObject = lists[i];
+}
 
 function addTask() {
   const newTask = document.getElementById("newTask");
@@ -25,32 +27,32 @@ function addTask() {
   });
 }
 
+//code for creating a new list
 function newList() {
   const taskItems = document.getElementById("listNames");
   const info = document.getElementById("newList").value;
   const listHead = document.getElementById("listHeader");
-  let newListObject = {
-    name: "",
-    todos: [{ text: "", completed: false }],
-  };
+
   //start of code
-  taskItems.innerHTML += `<div class=" listName h-10 bg-gray-400">
-    <h3 class="p-1 h-full w-1/5 overflow-hidden"> ${info} </h3>
-    <button class="w-1/2 overflow-hidden"><i class="fa-solid fa-trash-can mr-2" style="color: #fe0717;"></i></button>
-  </div>`;
+  taskItems.innerHTML += `<div class="listName h-10 bg-gray-400"> <h2> ${info} </h2> <button onclick="taskItem()"> <i class="fa-solid fa-plus text-zinc-700 p-2"></i></button></div>`;
   document.getElementById("newList").value = "";
   document.getElementById("newTask").innerHTML = "";
   listHead.innerHTML = `<h2> ${info} </h2> <button onclick="taskItem()"> <i class="fa-solid fa-plus text-zinc-700 p-2"></i></button>`;
 
   document.getElementById("tasks").innerHTML = "";
-
+  const newListObject = {
+    name: "",
+    todos: [],
+  };
   if (info) {
     newListObject.name = info;
   }
 
-  currentList.push(newListObject);
   console.log(lists);
-  lists.push(currentList);
+
+  lists.push(newListObject);
+  // Save the updated lists array to localStorage
+  localStorage.setItem("lists", JSON.stringify(lists));
 }
 
 function taskItem() {
@@ -64,7 +66,7 @@ function taskItem() {
   newTaskInput.type = "text";
   newTaskInput.id = "taskItem";
   newTaskInput.placeholder = "task";
-
+  itemInput.appendChild(newTaskInput);
   // Add a keydown event listener to the new input field
   newTaskInput.addEventListener("keydown", (e) => {
     if (e.key == "Enter") {
@@ -78,19 +80,21 @@ function taskItem() {
 
       newItem.append(taskDiv);
       if (text) {
-        currentList.todos.push({
+        newListObject.todos.push({
           text: text,
           completed: false,
         });
       }
+
       // Clear the input field
       newTaskInput.value = "";
       newTaskInput.innerHTML = "";
+      itemInput.innerHTML = "";
     }
   });
 }
 
-//When clikcing on a task item, gets crossed out
+//When clikcing on a task item, gets crossed out, anc made true on its boolean
 function checkIfChecked(event) {
   const taskDiv = event.target;
   taskDiv.classList.add("crossed-out");
@@ -103,6 +107,13 @@ function deleteCheckedTasks(event) {
   }
 }
 function render() {
+  // const storedLists = localStorage.getItem('lists');
+
+  // if (storedLists) {
+  //   // Parse the stored JSON string back to an object
+  //    lists = JSON.parse(storedLists);
+  //  }
+
   let taskItems = `<div class="listName h-10 bg-gray-400">`;
   const newItem = document.getElementById("tasks");
 
@@ -118,14 +129,13 @@ function render() {
     ).innerHTML = `<h2> ${list.name} </h2> <button onclick="taskItem()"> <i class="fa-solid fa-plus text-zinc-700 p-2"></i></button>`;
 
     // Iterate over the todos in the current list
-    
+
     const taskDivs = list.todos.map((todo) => {
       return `
       <div>
         <p class="mb-0">${todo.text}</p>
       </div>
     `;
-     
     });
     // Print out the todos
     newItem.innerHTML = taskDivs.join("");
@@ -133,3 +143,6 @@ function render() {
 }
 // Initial rendering when the page loads
 render();
+
+//TODO: 1. Switch between list items 2. Be able to push my tasks to the current list 3. Clear and Edit Tasks 4.delete tasks and lists witout completing 5. animated
+//TODO: Pushing Task Items: Ive tried doing different things, and im not sure how to use a currentlist object to be able to push to the main array list. i cannot push something set to list[i](or any number)
