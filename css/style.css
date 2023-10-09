@@ -24,13 +24,20 @@ h-10{
 .todo-item{
     display:flex;
     align-items:center;
-    justify-content: start;
+    justify-content: space-between;
     padding:5px;
     border: solid 1px black;
     overflow-y: scroll;
     margin: 5px 0px;
     font-size: large;
     text-transform: capitalize;
+}
+.left{
+    display:flex;
+    align-items: center;
+}
+.left input{
+    margin-right:10px;
 }
 .listName{
     display: flex;

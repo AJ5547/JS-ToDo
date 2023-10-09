@@ -13,9 +13,12 @@ let lists = [
     ],
   },
 ];
-for (let i = 0; i < lists.length; i++) {
-  newListObject = lists[i];
-}
+
+let currentListIndex = 0;
+let currentList = {
+  name: lists[currentListIndex].name,
+  todos: lists[currentListIndex].todos,
+};
 
 function addTask() {
   const newTask = document.getElementById("newTask");
@@ -29,30 +32,41 @@ function addTask() {
 
 //code for creating a new list
 function newList() {
-  const taskItems = document.getElementById("listNames");
   const info = document.getElementById("newList").value;
-  const listHead = document.getElementById("listHeader");
 
-  //start of code
-  taskItems.innerHTML += `<div class="listName h-10 bg-gray-400"> <h2> ${info} </h2> <button onclick="taskItem()"> <i class="fa-solid fa-plus text-zinc-700 p-2"></i></button></div>`;
-  document.getElementById("newList").value = "";
-  document.getElementById("newTask").innerHTML = "";
-  listHead.innerHTML = `<h2> ${info} </h2> <button onclick="taskItem()"> <i class="fa-solid fa-plus text-zinc-700 p-2"></i></button>`;
-
-  document.getElementById("tasks").innerHTML = "";
+  // Create a new list object
   const newListObject = {
-    name: "",
+    name: info,
     todos: [],
   };
-  if (info) {
-    newListObject.name = info;
-  }
 
-  console.log(lists);
-
+  // Add the new list to the lists array
   lists.push(newListObject);
+
+  // Set it as the current list
+  currentListIndex = lists.length - 1;
+  currentList = {
+    name: lists[currentListIndex].name,
+    todos: lists[currentListIndex].todos,
+  };
+
+  // Update the UI
+  render();
+
+  // Clear the input field
+  document.getElementById("newList").value = "";
+
   // Save the updated lists array to localStorage
   localStorage.setItem("lists", JSON.stringify(lists));
+}
+
+function switchToList(index) {
+  currentListIndex = index;
+  currentList = {
+    name: lists[currentListIndex].name,
+    todos: lists[currentListIndex].todos,
+  };
+  render();
 }
 
 function taskItem() {
@@ -70,34 +84,42 @@ function taskItem() {
   // Add a keydown event listener to the new input field
   newTaskInput.addEventListener("keydown", (e) => {
     if (e.key == "Enter") {
-      const text = newTaskInput.value;
       const taskDiv = document.createElement("div");
       taskDiv.className = "todo-item w-1/2";
-      taskDiv.innerHTML = ` <p class="mb-0">${text}</p>`;
 
       taskDiv.classList.add("todo-item");
       taskDiv.addEventListener("click", checkIfChecked);
 
       newItem.append(taskDiv);
+      const text = newTaskInput.value;
       if (text) {
-        newListObject.todos.push({
+        currentList.todos.push({
           text: text,
           completed: false,
         });
       }
+      taskDiv.innerHTML = ` <div class="left">
+      <input type="checkbox"></input>
+       <p class="mb-0">${text}</p> </div>
+       <div class="right"><i class="fa-solid fa-pen-to-square" style="color: #8c888c;"></i>
+       </div>`;
 
       // Clear the input field
       newTaskInput.value = "";
       newTaskInput.innerHTML = "";
       itemInput.innerHTML = "";
-    }
+    } 
   });
+
+ 
 }
 
 //When clikcing on a task item, gets crossed out, anc made true on its boolean
+//TODO: check ALL task inputs if they are checked, add crossed-out class
 function checkIfChecked(event) {
   const taskDiv = event.target;
   taskDiv.classList.add("crossed-out");
+
 }
 
 function deleteCheckedTasks(event) {
@@ -107,42 +129,45 @@ function deleteCheckedTasks(event) {
   }
 }
 function render() {
-  // const storedLists = localStorage.getItem('lists');
+  const storedLists = localStorage.getItem("lists");
 
-  // if (storedLists) {
-  //   // Parse the stored JSON string back to an object
-  //    lists = JSON.parse(storedLists);
-  //  }
-
-  let taskItems = `<div class="listName h-10 bg-gray-400">`;
+  if (storedLists) {
+    // Parse the stored JSON string back to an object
+    lists = JSON.parse(storedLists);
+  }
+  let listNames = "";
   const newItem = document.getElementById("tasks");
 
-  lists.forEach((list) => {
-    taskItems += `<h3 class="p-1 h-full w-1/5 overflow-hidden"> ${list.name} </h3>
-        <button class="w-1/2 overflow-hidden"><i class="fa-solid fa-trash-can mr-2" style="color: #fe0717;"></i>`;
-
-    // Print out the name of the current list
-    taskItems += "</div>";
-    document.getElementById("listNames").innerHTML = taskItems;
+  lists.forEach((list, index) => {
+    listNames += `<div class="listName h-10 bg-gray-400"><button onclick="switchToList(${index})">`;
+    listNames += `<h3 class="p-1 h-full w-1/5 overflow-hidden"> ${list.name} </h3>`;
+    listNames += `<button class="w-1/2 overflow-hidden"><i class="fa-solid fa-trash-can mr-2" style="color: #fe0717;"></i></button>`;
+    listNames += "</button></div>";
     document.getElementById(
       "listHeader"
-    ).innerHTML = `<h2> ${list.name} </h2> <button onclick="taskItem()"> <i class="fa-solid fa-plus text-zinc-700 p-2"></i></button>`;
-
+    ).innerHTML = `<h2> ${currentList.name} </h2> <button onclick="taskItem()"> <i class="fa-solid fa-plus text-zinc-700 p-2"></i></button>`;
     // Iterate over the todos in the current list
 
-    const taskDivs = list.todos.map((todo) => {
+    const taskDivs = currentList.todos.map((todo) => {
       return `
-      <div>
-        <p class="mb-0">${todo.text}</p>
-      </div>
-    `;
-    });
-    // Print out the todos
+      <div class="todo-item w-1/2">
+      <div class="left">
+      <input type="checkbox"></input>
+       <p class="mb-0">${todo.text}</p> </div>
+       <div class="right"><i class="fa-solid fa-pen-to-square" style="color: #8c888c;"></i>
+       </div></div>
+      `;
+    }
+    ); 
+    // Append the task items for the current list
+    const taskListElement = document.getElementById("listNames");
+    taskListElement.innerHTML = listNames;
     newItem.innerHTML = taskDivs.join("");
   });
 }
+
 // Initial rendering when the page loads
 render();
 
-//TODO: 1. Switch between list items 2. Be able to push my tasks to the current list 3. Clear and Edit Tasks 4.delete tasks and lists witout completing 5. animated
+//TODO:  2. Be able to push my tasks to the current list 3. Clear and Edit Tasks 4.delete tasks and lists witout completing 5. animated
 //TODO: Pushing Task Items: Ive tried doing different things, and im not sure how to use a currentlist object to be able to push to the main array list. i cannot push something set to list[i](or any number)
