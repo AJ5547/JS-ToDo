@@ -74,7 +74,6 @@ function switchToList(index) {
 
 // Function to handle creating task items
 function taskItem() {
-  const newItem = document.getElementById("tasks");
   const itemInput = document.getElementById("itemInput");
 
   // Create a new input field
@@ -83,12 +82,13 @@ function taskItem() {
   newTaskInput.type = "text";
   newTaskInput.id = "taskItem";
   newTaskInput.placeholder = "task";
-  itemInput.appendChild(newTaskInput);
+  itemInput.append(newTaskInput);
 
   // Add a keydown event listener to the new input field
   newTaskInput.addEventListener("keydown", (e) => {
     if (e.key == "Enter") {
       createTask(newTaskInput);
+      newTaskInput.value="";
     }
   });
 }
@@ -103,7 +103,6 @@ function createTask(newTaskInput) {
       text: text,
       completed: false,
     });
-
     const taskDiv = document.createElement("div");
     taskDiv.className = "todo-item w-1/2";
 
@@ -114,13 +113,11 @@ function createTask(newTaskInput) {
     taskDiv.appendChild(checkbox);
     newItem.append(taskDiv);
 
-    taskDiv.innerHTML = `
-      <p class="mb-0">${text}</p>
-      <div class="right"><i class="fa-solid fa-pen-to-square" style="color: #8c888c;"></i></div>`;
+    taskDiv.innerHTML = `<span class="left"><input class="taskCheckbox" type="checkbox"> </input>
+      <p class="mb-0">${text}</p></span>
+      <button onclick="edit()" class="right"><i class="fa-solid fa-pen-to-square" style="color: #8c888c;"></i></div>
+        </button>`;
 
-    // Clear the input field
-    newTaskInput.value = "";
-    newTaskInput.innerHTML = "";
     itemInput.innerHTML = "";
   }
 }
@@ -142,6 +139,23 @@ function deleteCheckedTasks(event) {
   // Implementation for deleting checked tasks
 }
 
+//Function to edit the task
+function edit(){
+  const puteditAreaHere = document.getElementById("editAreaHere");
+  const editArea = document.createElement("input");
+  editArea.type = "text";
+  editArea.placeholder = "Edit Task";
+  editArea.classList.add = "w-full";
+  puteditAreaHere.appendChild(editArea);
+  //when enter is pressed, updates the task user wanted to edit.
+  editArea.addEventListener("keydown", (e) => {
+    if (e.key == "Enter") {
+      console.log(editArea.value);
+      editArea.value="";
+    }
+  });
+}
+
 // Function to render the UI
 function render() {
   const storedLists = localStorage.getItem("lists");
@@ -159,7 +173,7 @@ function render() {
     listNames += `<h3 class="p-1 h-full w-1/5 overflow-hidden"> ${list.name} </h3>`;
     listNames += `<button class="w-1/2 overflow-hidden"><i class="fa-solid fa-trash-can mr-2" style="color: #fe0717;"></i></button>`;
     listNames += "</button></div>";
-    document.getElementById("listHeader").innerHTML = `<h2> ${currentList.name} </h2> <button onclick="taskItem()"> <i class="fa-solid fa-plus text-zinc-700 p-2"></i></button>`;
+    document.getElementById("listHeader").innerHTML = `<h2> ${currentList.name} </h2> <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700"> <button onclick="taskItem()"> <i class="fa-solid fa-plus text-zinc-700 p-2"></i></button>`;
 
     // Iterate over the todos in the current list
     const taskDivs = currentList.todos.map((todo) => {
@@ -169,8 +183,8 @@ function render() {
             <input type="checkbox"></input>
             <p class="mb-0">${todo.text}</p>
           </div>
-          <div class="right"><i class="fa-solid fa-pen-to-square" style="color: #8c888c;"></i></div>
-        </div>
+          <button onclick="edit()" class="right"><i class="fa-solid fa-pen-to-square" style="color: #8c888c;"></i></div>
+        </button>
       `;
     });
 

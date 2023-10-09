@@ -53,3 +53,9 @@ h-10{
 hr{
     margin:0;
 }
+
+#editAreaHere{
+    position: absolute;
+    bottom:175px;
+    width: 100%;
+}

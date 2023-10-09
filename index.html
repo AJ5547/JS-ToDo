@@ -3,7 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" href="icons/icons8-list-32.png" type="image/x-icon">
+    <link
+      rel="shortcut icon"
+      href="icons/icons8-list-32.png"
+      type="image/x-icon"
+    />
     <title>to do app</title>
     <link rel="stylesheet" href="css/style.css" />
     <link
@@ -21,9 +25,7 @@
   </head>
   <body class="flex justify-center bg-zinc-700">
     <div class="outer w-75 mt-5 bg-zinc-600">
-      <nav
-        class="navbar  p-2 flex justify-between align-middle"
-      >
+      <nav class="navbar p-2 flex justify-between align-middle">
         <button onclick="addTask()">
           <i class="fa-solid fa-plus" style="color: #d0d0d0"></i>
         </button>
@@ -36,19 +38,20 @@
             id="listNames"
           >
             <!-- list of todo lists go here -->
-          
           </div>
           <div class="col-8" id="currentList">
             <!-- current todo list name goes here -->
             <div
               id="listHeader"
               class="flex justify-between align-middle items-center"
-            > </div>
-            <hr>
+            ></div>
+            <hr />
             <!-- current todo list goes here -->
             <div id="itemInput"></div>
             <div id="tasks" class="h-full overflow-hidden"></div>
-          </div>
+          <div class="w-full" id="editAreaHere"></div>
+        </div>
+          
         </div>
       </div>
     </div>
