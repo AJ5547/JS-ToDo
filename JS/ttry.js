@@ -5,8 +5,8 @@ let lists = localStorage.getItem("lists")
       {
         name: "Shopping list",
         todos: [
-          { text: "bananas", completed: false },
-          { text: "1 lbs ground turkey", completed: false },
+          { text: "bananas", completed: false, id: "bonk" },
+          { text: "1 lbs ground turkey", completed: false, id: "boop" },
         ],
       },
     ];
@@ -39,14 +39,10 @@ function addList() {
 
 // Function to remove a list
 function removeList() {
-  if(currentListIndex >= 1){
-  lists.splice(currentListIndex,1);
+  lists.splice(currentListIndex, 1);
 
   localStorage.setItem("lists", JSON.stringify(lists));
   render();
-  } else{
-    console.warn("cannot have less than one list");
-  }
 }
 
 // Function to create a new list
@@ -89,6 +85,8 @@ function taskItem() {
     if (e.key == "Enter") {
       createTask(newTaskInput);
       newTaskInput.value = "";
+
+      itemInput.innerHTML = " ";
     }
   });
 }
@@ -97,31 +95,50 @@ function taskItem() {
 function createTask(newTaskInput) {
   const newItem = document.getElementById("tasks");
   const text = newTaskInput.value;
-  if (text) {
+
+  const uniqueId = new Date().getTime().toString();
+  console.log(uniqueId);
+  if ((text, uniqueId)) {
     const currentListTodos = lists[currentListIndex].todos;
     currentListTodos.push({
       text: text,
       completed: false,
+      id: uniqueId,
     });
+
     const taskDiv = document.createElement("div");
     taskDiv.className = "todo-item w-1/2";
-    newItem.append(taskDiv);
     taskDiv.innerHTML = `
-      <span class="left">
+      <div class="left">
         <input class="taskCheckbox" name="taskCheckbox" type="checkbox" aria-label="task Checkbox">
         <p class="mb-0">${text}</p>
-      </span>
+      </div>
       <button onclick="edit()" class="right"><i class="fa-solid fa-pen-to-square" style="color: #3f3f46;"></i></button>
     `;
-    itemInput.innerHTML = "";
+
+    newItem.appendChild(taskDiv);
+    newTaskInput.value = ""; // Clear the input field correctly
+
+    // Save the changes to local storage and render
+    localStorage.setItem("lists", JSON.stringify(lists));
+    render();
   }
-  localStorage.setItem("lists", JSON.stringify(lists));
-  render();
 }
 
 // Function to edit a task
-function edit(event) {
-  // Your edit functionality can go here
+function edit() {
+  const itemInput = document.getElementById("itemInput");
+  const editInput = document.createElement("input");
+  editInput.type = "text";
+  editInput.placeholder = "edit Task";
+  itemInput.append(editInput);
+  editInput.addEventListener("keydown", (e) => {
+    if (e.key == "Enter") {
+      console.log(editInput.value);
+      editInput.value = "";
+      itemInput.innerHTML = " ";
+    }
+  });
 }
 
 // Function to render the UI
@@ -139,7 +156,9 @@ function render() {
       </div>`;
   });
 
-  document.getElementById("listHeader").innerHTML = `<h2> ${currentList.name} </h2> <br /> 
+  document.getElementById(
+    "listHeader"
+  ).innerHTML = `<h2> ${currentList.name} </h2> <br /> 
     <button onclick="taskItem()" alt="new task button"> 
     <i class="fa-solid fa-plus text-zinc-700 p-2"></i></button>`;
 
@@ -162,4 +181,4 @@ function render() {
 // Initial rendering when the page loads
 render();
 
-//TODO:   3. Clear and Edit Tasks 4.delete tasks and lists witout completing 5. animated
+//TODO:   1) Edit Task 2) Clear Completed Tasks 3) Delete Lists 4) Delete Tasks + Clear Completed
