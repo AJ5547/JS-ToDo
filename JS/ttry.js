@@ -126,7 +126,7 @@ function createTask(newTaskInput) {
 }
 
 // Function to edit a task
-function edit() {
+function edit(taskId) {
   const itemInput = document.getElementById("itemInput");
   const editInput = document.createElement("input");
   editInput.type = "text";
@@ -134,6 +134,15 @@ function edit() {
   itemInput.append(editInput);
   editInput.addEventListener("keydown", (e) => {
     if (e.key == "Enter") {
+      const newText = editInput.value;
+      const taskToEdit = lists[currentListIndex].todos.find((todo) => todo.id === taskId);
+
+      if (taskToEdit) {
+        taskToEdit.text = newText;
+        localStorage.setItem("lists", JSON.stringify(lists));
+        render();
+      }
+
       console.log(editInput.value);
       editInput.value = "";
       itemInput.innerHTML = " ";
@@ -162,16 +171,17 @@ function render() {
     <button onclick="taskItem()" alt="new task button"> 
     <i class="fa-solid fa-plus text-zinc-700 p-2"></i></button>`;
 
-  const taskDivs = currentList.todos.map((todo) => {
-    return `
-      <div class="todo-item w-1/2">
-        <div class="left">
-          <input class="taskCheckbox" type="checkbox" aria-label="task done checkbox">
-          <p class="mb-0">${todo.text}</p>
-        </div>
-        <button onclick="edit()" class="right"><i class="fa-solid fa-pen-to-square" style="color: #3f3f46;"></i></button>
-      </div>`;
-  });
+    const taskDivs = currentList.todos.map((todo) => {
+      return `
+        <div class="todo-item w-1/2" data-task-id="${todo.id}">
+          <div class="left">
+            <input class="taskCheckbox" type="checkbox" aria-label="task done checkbox">
+            <p class="mb-0">${todo.text}</p>
+          </div>
+          <button onclick="edit('${todo.id}')" class="right"><i class="fa-solid fa-pen-to-square" style="color: #3f3f46;"></i></button>
+        </div>`;
+    });
+    
 
   const taskListElement = document.getElementById("listNames");
   taskListElement.innerHTML = listNames;
