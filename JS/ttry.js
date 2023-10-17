@@ -154,31 +154,43 @@ function edit(taskId) {
   });
 }
 
-function markTaskCompleted(){
-  let listInputCheck = document.getElementById(`bonk`);
-  listInputCheck.classList.toggle("crossed-out");
-  console.log("toggle")
+function markTaskCompleted(taskId) {
+  const markComplete = lists[currentListIndex].todos.find(
+    (todo) => todo.id === taskId
+  );
+
+  if (markComplete) {
+    let listInputCheck = document.getElementById(taskId);
+    listInputCheck.classList.toggle("crossed-out");
+    console.log(taskId + " toggle");
+    // localStorage.setItem("lists", JSON.stringify(lists));
+    // render();
+  }
 }
-function deleteCompletedTask(){
-  if(
-    //class = crossed-out
-sdfa  ){
-  //remove
-}
+function deleteCompletedTask() {
+  // if () {
+  //   //remove
+  // }
 }
 // Function to render the UI
 function render() {
   let listNames = "";
   const newItem = document.getElementById("tasks");
 
+
   lists.forEach((list, index) => {
     listNames += `
-      <div class="listName h-10 bg-gray-400">
+      <div class="listName h-10 bg-gray-400  d-none d-lg-flex">
         <button onclick="switchToList(${index})">
           <h3 class="p-1 h-full w-1/5 overflow-hidden"> ${list.name} </h3>
           <button title="Delete Task" class="w-1/2" onclick="removeList()"><i class="fa-solid fa-trash-can mr-2" style="color: #fe0717;"></i></button>
         </button>
-      </div>`;
+      </div>
+      <div class="listName h-10 bg-gray-400 d-block d-lg-none">
+        <button onclick="switchToList(${index})">
+          <h6 class="p-1 h-full w-1/5 overflow-hidden"> ${list.name} </h6> </button>
+       </div>    
+       `;
   });
 
   document.getElementById(
@@ -193,9 +205,9 @@ function render() {
 
   const taskDivs = currentList.todos.map((todo) => {
     return `
-        <div class="todo-item w-1/2" data-task-id="${todo.id}">
+        <div id="${todo.id}" class="todo-item w-13/4"">
           <div class="left">
-            <input onclick="markTaskCompleted()" id="taskCheckbox" type="checkbox" aria-label="task done checkbox">
+            <input title="Completion Checkbox" onclick="markTaskCompleted('${todo.id}')" id="taskCheckbox" type="checkbox" aria-label="task done checkbox">
             <p class="mb-0">${todo.text}</p>
           </div>
           <button title="Edit Task" onclick="edit('${todo.id}')" class="right"><i class="fa-solid fa-pen-to-square" style="color: #3f3f46;"></i></button>

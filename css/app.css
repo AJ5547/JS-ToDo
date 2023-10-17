@@ -555,6 +555,18 @@ video {
   width: 12rem;
 }
 
+.w-80 {
+  width: 20rem;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.w-1\/2 {
+  width: 50%;
+}
+
 .items-center {
   align-items: center;
 }
