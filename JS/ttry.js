@@ -26,7 +26,7 @@ function addList() {
     <div class="flex items-center m-0 p-0 h-5 justify-between bg-gray-400 w-fit">
       <input type="text" id="newList" placeholder="list name" required>
       <button class="text-white px-2" onclick="render(); newList()"> Add </button>
-      <button class="w-8 px-2" onclick="cancel()"> <i class="fa-solid fa-x" style="color: #ea2427;"></i> </button>
+      <button class="w-8 px-2" onclick="cancelListCreation()"> <i class="fa-solid fa-x" style="color: #ea2427;"></i> </button>
     </div>
   `;
   newTask.addEventListener("keypress", (e) => {
@@ -40,7 +40,6 @@ function addList() {
 // Function to remove a list
 function removeList() {
   lists.splice(currentListIndex, 1);
-
   localStorage.setItem("lists", JSON.stringify(lists));
   render();
 }
@@ -62,7 +61,10 @@ function newList() {
   document.getElementById("newList").value = "";
   localStorage.setItem("lists", JSON.stringify(lists));
 }
-
+function cancelListCreation() {
+  const newTask = document.getElementById("newTask");
+  newTask.innerHTML = " ";
+}
 // Function to switch to a different list
 function switchToList(index) {
   currentListIndex = index;
@@ -135,7 +137,9 @@ function edit(taskId) {
   editInput.addEventListener("keydown", (e) => {
     if (e.key == "Enter") {
       const newText = editInput.value;
-      const taskToEdit = lists[currentListIndex].todos.find((todo) => todo.id === taskId);
+      const taskToEdit = lists[currentListIndex].todos.find(
+        (todo) => todo.id === taskId
+      );
 
       if (taskToEdit) {
         taskToEdit.text = newText;
@@ -150,6 +154,18 @@ function edit(taskId) {
   });
 }
 
+function markTaskCompleted(){
+  let listInputCheck = document.getElementById(`bonk`);
+  listInputCheck.classList.toggle("crossed-out");
+  console.log("toggle")
+}
+function deleteCompletedTask(){
+  if(
+    //class = crossed-out
+sdfa  ){
+  //remove
+}
+}
 // Function to render the UI
 function render() {
   let listNames = "";
@@ -160,7 +176,7 @@ function render() {
       <div class="listName h-10 bg-gray-400">
         <button onclick="switchToList(${index})">
           <h3 class="p-1 h-full w-1/5 overflow-hidden"> ${list.name} </h3>
-          <button class="w-1/2" onclick="removeList()"><i class="fa-solid fa-trash-can mr-2" style="color: #fe0717;"></i></button>
+          <button title="Delete Task" class="w-1/2" onclick="removeList()"><i class="fa-solid fa-trash-can mr-2" style="color: #fe0717;"></i></button>
         </button>
       </div>`;
   });
@@ -168,20 +184,23 @@ function render() {
   document.getElementById(
     "listHeader"
   ).innerHTML = `<h2> ${currentList.name} </h2> <br /> 
-    <button onclick="taskItem()" alt="new task button"> 
-    <i class="fa-solid fa-plus text-zinc-700 p-2"></i></button>`;
+  <div class="buttons">
+  <button title="Delete Completed Tasks" onclick="deleteCompletedTask()">
+  <i class="fa-solid fa-list-check text-green-500 p-2"></i></button>
+    <button title="Add New Task" onclick="taskItem()" alt="new task button"> 
+    <i class="fa-solid fa-plus text-zinc-700 p-2"></i></button>
+    </div>`;
 
-    const taskDivs = currentList.todos.map((todo) => {
-      return `
+  const taskDivs = currentList.todos.map((todo) => {
+    return `
         <div class="todo-item w-1/2" data-task-id="${todo.id}">
           <div class="left">
-            <input class="taskCheckbox" type="checkbox" aria-label="task done checkbox">
+            <input onclick="markTaskCompleted()" id="taskCheckbox" type="checkbox" aria-label="task done checkbox">
             <p class="mb-0">${todo.text}</p>
           </div>
-          <button onclick="edit('${todo.id}')" class="right"><i class="fa-solid fa-pen-to-square" style="color: #3f3f46;"></i></button>
+          <button title="Edit Task" onclick="edit('${todo.id}')" class="right"><i class="fa-solid fa-pen-to-square" style="color: #3f3f46;"></i></button>
         </div>`;
-    });
-    
+  });
 
   const taskListElement = document.getElementById("listNames");
   taskListElement.innerHTML = listNames;
@@ -191,4 +210,4 @@ function render() {
 // Initial rendering when the page loads
 render();
 
-//TODO:   1) Edit Task 2) Clear Completed Tasks 3) Delete Lists 4) Delete Tasks + Clear Completed
+//TODO: 2) Clear Completed Tasks 4) Delete Tasks + Clear Completed

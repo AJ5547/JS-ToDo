@@ -59,3 +59,7 @@ hr{
     bottom:175px;
     width: 100%;
 }
+#listHeader{
+    display: flex;
+    align-items: center;
+}
