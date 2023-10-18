@@ -551,20 +551,16 @@ video {
   height: 100%;
 }
 
-.w-48 {
-  width: 12rem;
+.w-11\/12 {
+  width: 91.666667%;
 }
 
-.w-80 {
-  width: 20rem;
+.w-52 {
+  width: 13rem;
 }
 
 .w-full {
   width: 100%;
-}
-
-.w-1\/2 {
-  width: 50%;
 }
 
 .items-center {

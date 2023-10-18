@@ -47,7 +47,7 @@ h-10{
     margin: 3px;;
     padding:0;
     width:95%;
-    justify-content: space-between;
+    justify-content: space-evenly;
 
 }
 hr{

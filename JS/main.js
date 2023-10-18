@@ -5,8 +5,12 @@ let lists = localStorage.getItem("lists")
       {
         name: "Shopping list",
         todos: [
-          { text: "bananas", completed: false, id: "bonk" },
-          { text: "1 lbs ground turkey", completed: false, id: "boop" },
+          { text: "bananas", completed: false, id: "2433778436343" },
+          {
+            text: "1 lbs ground turkey",
+            completed: false,
+            id: "2812763437414",
+          },
         ],
       },
     ];
@@ -18,7 +22,6 @@ let currentList = {
   name: lists[currentListIndex].name,
   todos: lists[currentListIndex].todos,
 };
-
 // Function to add a new list
 function addList() {
   const newTask = document.getElementById("newTask");
@@ -42,8 +45,14 @@ function removeList() {
   lists.splice(currentListIndex, 1);
   localStorage.setItem("lists", JSON.stringify(lists));
   render();
-}
 
+  location.reload();
+}
+//Cancel list Creation
+function cancelListCreation() {
+  const newTask = document.getElementById("newTask");
+  newTask.innerHTML = " ";
+}
 // Function to create a new list
 function newList() {
   const info = document.getElementById("newList").value;
@@ -61,19 +70,20 @@ function newList() {
   document.getElementById("newList").value = "";
   localStorage.setItem("lists", JSON.stringify(lists));
 }
-function cancelListCreation() {
-  const newTask = document.getElementById("newTask");
-  newTask.innerHTML = " ";
-}
+
 // Function to switch to a different list
 function switchToList(index) {
+  const itemInput = document.getElementById("itemInput");
+  itemInput.innerHTML = " ";
   currentListIndex = index;
   currentList = {
     name: lists[currentListIndex].name,
     todos: lists[currentListIndex].todos,
   };
+
   render();
 }
+
 
 // Function to handle creating task items
 function taskItem() {
@@ -112,7 +122,7 @@ function createTask(newTaskInput) {
     taskDiv.className = "todo-item w-1/2";
     taskDiv.innerHTML = `
       <div class="left">
-        <input class="taskCheckbox" name="taskCheckbox" type="checkbox" aria-label="task Checkbox">
+        <input id='${uniqueId}' class="taskCheckbox" name="taskCheckbox" type="checkbox" aria-label="task Checkbox">
         <p class="mb-0">${text}</p>
       </div>
       <button onclick="edit()" class="right"><i class="fa-solid fa-pen-to-square" style="color: #3f3f46;"></i></button>
@@ -154,42 +164,65 @@ function edit(taskId) {
   });
 }
 
-function markTaskCompleted(taskId) {
-  const markComplete = lists[currentListIndex].todos.find(
-    (todo) => todo.id === taskId
-  );
-
+//Marks a Task as completed when cliocking on the checkbox, and then disables the checkbox
+function markTaskCompleted(taskId,uniqueId) {
+  let checkBox = document.getElementById(uniqueId);
+  let checkId;
+  const markComplete = lists[currentListIndex].todos.find((todo, index) => {
+    checkId = index;
+    return todo.id === taskId;
+  });
   if (markComplete) {
     let listInputCheck = document.getElementById(taskId);
-    listInputCheck.classList.toggle("crossed-out");
+    listInputCheck.classList.add("crossed-out");
     console.log(taskId + " toggle");
-    // localStorage.setItem("lists", JSON.stringify(lists));
-    // render();
+    lists[currentListIndex].todos[checkId].completed = true;
+    console.log(lists[currentListIndex].todos[checkId]);
+    localStorage.setItem("lists", JSON.stringify(lists));  
+    console.log(checkBox);
   }
 }
+
+//Deletes all tasks marked as completed
 function deleteCompletedTask() {
-  // if () {
-  //   //remove
-  // }
+  const currentListCompleted = lists[currentListIndex].todos;
+  const incompleted = currentListCompleted.filter((todo) => !todo.completed);
+}
+
+//Deletes only the task that you press the trash can button on, then renders it
+function deleteSelectedTask(taskId) {
+  let checkIndex;
+  const deleteSelected = lists[currentListIndex].todos.find((todo, index) => {
+    checkIndex = index;
+    return todo.id === taskId;
+  });
+  if (deleteSelected) {
+    //Delete the task selected
+    console.log("delete: " + taskId + " " + checkIndex);
+    lists[currentListIndex].todos.splice(checkIndex, 1);
+    console.log(currentList.todos);
+
+    localStorage.setItem("lists", JSON.stringify(lists));
+    render();
+  }
 }
 // Function to render the UI
 function render() {
   let listNames = "";
   const newItem = document.getElementById("tasks");
 
-
   lists.forEach((list, index) => {
     listNames += `
-      <div class="listName h-10 bg-gray-400  d-none d-lg-flex">
-        <button onclick="switchToList(${index})">
-          <h3 class="p-1 h-full w-1/5 overflow-hidden"> ${list.name} </h3>
-          <button title="Delete Task" class="w-1/2" onclick="removeList()"><i class="fa-solid fa-trash-can mr-2" style="color: #fe0717;"></i></button>
-        </button>
+      <div class="listName h-10 bg-gray-400  d-none d-md-flex justify-content-between">
+        <button class="w-5/6" onclick="switchToList(${index})">
+          <h3 class="p-1 h-full w-full overflow-hidden"> ${list.name} </h3></button>
+          <button title="Delete Task" class="w-1/6" onclick="removeList()"><i class="fa-solid fa-trash-can mr-2" style="color: #fe0717;"></i></button>
+        
       </div>
-      <div class="listName h-10 bg-gray-400 d-block d-lg-none">
-        <button onclick="switchToList(${index})">
-          <h6 class="p-1 h-full w-1/5 overflow-hidden"> ${list.name} </h6> </button>
-       </div>    
+      <div class="listName h-10 bg-gray-400 w-max d-block d-md-none">
+      <button onclick="switchToList(${index})">
+     <h4 class="p-1 h-full w-1/5 overflow-hidden"> ${list.name} </h4> </button>
+      </div> 
        `;
   });
 
@@ -205,13 +238,16 @@ function render() {
 
   const taskDivs = currentList.todos.map((todo) => {
     return `
-        <div id="${todo.id}" class="todo-item w-13/4"">
+        <div id="${todo.id}" class="todo-item w-13/4">
           <div class="left">
             <input title="Completion Checkbox" onclick="markTaskCompleted('${todo.id}')" id="taskCheckbox" type="checkbox" aria-label="task done checkbox">
             <p class="mb-0">${todo.text}</p>
           </div>
-          <button title="Edit Task" onclick="edit('${todo.id}')" class="right"><i class="fa-solid fa-pen-to-square" style="color: #3f3f46;"></i></button>
-        </div>`;
+          <div class="buttons">
+           <button title="Delete Task" class="w-1/6" onclick="deleteSelectedTask('${todo.id}')"><i class="fa-solid fa-trash-can mr-2" style="color: #fe0717;"></i></button>
+            <button title="Edit Task" onclick="edit('${todo.id}')" class="right"><i class="fa-solid fa-pen-to-square" style="color: #3f3f46;"></i></button>
+          </div>        
+         </div>`;
   });
 
   const taskListElement = document.getElementById("listNames");
